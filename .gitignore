@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.next/
+.wrangler/
+.vinext/
+.env
+.env.*
+!.env.example
+.DS_Store
