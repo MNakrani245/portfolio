@@ -517,7 +517,27 @@ function Modal({ project, onClose }: { project: Project; onClose: () => void }) 
 export default function Home() {
   const [activeProject, setActiveProject] = useState<Project | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [introVisible, setIntroVisible] = useState(true);
+  const [heroMode, setHeroMode] = useState(0);
   const heroRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const hasSeenIntro = window.sessionStorage.getItem("mn-intro-seen");
+    if (hasSeenIntro) {
+      setIntroVisible(false);
+    } else {
+      window.sessionStorage.setItem("mn-intro-seen", "true");
+      const introTimer = window.setTimeout(() => setIntroVisible(false), 1850);
+      return () => window.clearTimeout(introTimer);
+    }
+  }, []);
+
+  useEffect(() => {
+    const modeTimer = window.setInterval(() => {
+      setHeroMode((mode) => (mode + 1) % 3);
+    }, 2800);
+    return () => window.clearInterval(modeTimer);
+  }, []);
 
   useEffect(() => {
     const revealObserver = new IntersectionObserver(
@@ -571,6 +591,15 @@ export default function Home() {
 
   return (
     <>
+      <div className={`site-intro ${introVisible ? "" : "intro-finished"}`} aria-hidden="true">
+        <div className="intro-mark"><span>MN</span><i /></div>
+        <div className="intro-message">
+          <span>Translating complexity</span>
+          <strong>into clarity.</strong>
+        </div>
+        <div className="intro-progress"><i /></div>
+        <span className="intro-count">001 — 100</span>
+      </div>
       <div className="site-shell">
         <header className="site-nav">
           <button className="brand" onClick={() => scrollTo("home")} aria-label="Back to top">
@@ -592,63 +621,87 @@ export default function Home() {
         </header>
 
         <main>
-          <section className="hero" id="home" ref={heroRef}>
-            <div className="hero-glow glow-one" />
-            <div className="hero-glow glow-two" />
-            <div className="hero-copy">
-              <p className="eyebrow reveal-now"><i /> Techno-functional ERP lead · London</p>
-              <h1 className="reveal-now delay-one">
-                I turn operational <em>complexity</em> into software people trust.
-              </h1>
-              <p className="hero-lede reveal-now delay-two">
-                Seven years shaping Odoo ecosystems, automations and digital products—where business logic, clean engineering and human workflows meet.
-              </p>
-              <div className="hero-actions reveal-now delay-three">
+          <section className="hero hero-v2" id="home" ref={heroRef}>
+            <h1 className="sr-only">Mohit Nakrani — techno-functional ERP lead and digital product builder</h1>
+            <div className="hero-name" aria-hidden="true">
+              <span>MOHIT</span>
+              <span>NAKRANI</span>
+            </div>
+
+            <div className="hero-coordinate coordinate-one">51.5072° N</div>
+            <div className="hero-coordinate coordinate-two">0.1276° W</div>
+
+            <div className="hero-status reveal-now">
+              <i />
+              <span>AVAILABLE FOR<br />AMBITIOUS SYSTEMS</span>
+            </div>
+
+            <div className="hero-engine reveal-now delay-one" aria-label="A visual model of Mohit's approach">
+              <div className="engine-beam" />
+              <div className="engine-head">
+                <span>MN / TRANSFORMATION ENGINE</span>
+                <b>LIVE <i /></b>
+              </div>
+              <div className="engine-core">
+                <div className="engine-rings" aria-hidden="true">
+                  <i /><i /><i />
+                  <span>MN</span>
+                </div>
+                <div className="engine-modes">
+                  {[
+                    ["OPERATIONS", "ORCHESTRATED"],
+                    ["DATA", "DECISIONS"],
+                    ["COMPLEXITY", "CLEAR"],
+                  ].map(([from, to], index) => (
+                    <button
+                      className={heroMode === index ? "active" : ""}
+                      key={from}
+                      onClick={() => setHeroMode(index)}
+                      aria-label={`Transform ${from.toLowerCase()} into ${to.toLowerCase()}`}
+                    >
+                      <small>0{index + 1}</small>
+                      <span>{from}</span>
+                      <i>→</i>
+                      <b>{to}</b>
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div className="engine-foot">
+                <span>Odoo / Python / PostgreSQL / APIs</span>
+                <span>7+ YEARS</span>
+              </div>
+            </div>
+
+            <div className="hero-role reveal-now delay-two">
+              <span>Techno-functional ERP lead</span>
+              <span>Product systems designer</span>
+              <span>London, United Kingdom</span>
+            </div>
+
+            <div className="hero-manifesto reveal-now delay-three">
+              <p>I turn operational complexity into software people <em>trust.</em></p>
+              <div>
                 <button className="button button-primary" onClick={() => scrollTo("work")}>
                   Explore selected work <Arrow />
                 </button>
-                <a className="button button-ghost" href="/assets/docs/Mohit-Nakrani-CV.pdf" target="_blank">
-                  Download CV <span aria-hidden="true">↓</span>
-                </a>
-              </div>
-              <div className="hero-proof reveal-now delay-four">
-                <span><b>7+</b> years in ERP</span>
-                <span><b>6</b> countries served</span>
-                <span><b>End-to-end</b> ownership</span>
+                <a href="/assets/docs/Mohit-Nakrani-CV.pdf" target="_blank">Download CV ↘</a>
               </div>
             </div>
 
-            <div className="systems-orbit reveal-now delay-two" aria-label="Mohit's technology ecosystem">
-              <div className="orbit orbit-one" />
-              <div className="orbit orbit-two" />
-              <div className="orbit orbit-three" />
-              <span className="tech-node node-odoo">Odoo</span>
-              <span className="tech-node node-python">Python</span>
-              <span className="tech-node node-api">APIs</span>
-              <span className="tech-node node-sql">PostgreSQL</span>
-              <span className="tech-node node-owl">OWL</span>
-              <div className="portrait-core">
-                <div className="portrait-halo" />
-                <img src="/assets/images/my-avatar.png" alt="Illustrated avatar of Mohit Nakrani" />
-                <span><i /> Available for ambitious systems</span>
-              </div>
-              <div className="floating-card card-build">
-                <small>CURRENT FOCUS</small>
-                <b>Building ERP that scales</b>
-              </div>
-              <div className="floating-card card-location">
-                <small>BASED IN</small>
-                <b>London, UK</b>
-              </div>
+            <div className="hero-index reveal-now delay-four" aria-label="Career highlights">
+              <span><b>07+</b><small>Years building ERP</small></span>
+              <span><b>06</b><small>Countries served</small></span>
+              <span><b>360°</b><small>Discovery to delivery</small></span>
             </div>
 
             <div className="scroll-cue">
-              <span>Scroll to explore</span>
+              <span>Selected work below</span>
               <i />
             </div>
           </section>
 
-          <div className="ticker" aria-hidden="true">
+          <div className="ticker ticker-v2" aria-hidden="true">
             <div>
               {["ERP ARCHITECTURE", "ODOO", "WORKFLOW AUTOMATION", "DATA MIGRATION", "PRODUCT SYSTEMS", "INTEGRATIONS", "ERP ARCHITECTURE", "ODOO", "WORKFLOW AUTOMATION", "DATA MIGRATION", "PRODUCT SYSTEMS", "INTEGRATIONS"].map((item, index) => (
                 <span key={`${item}-${index}`}>{item}<i>✦</i></span>
@@ -689,11 +742,13 @@ export default function Home() {
               <p data-reveal>Selected engagements across logistics, commerce, care, dashboards and marketplaces. Confidential interfaces are reconstructed with synthetic data.</p>
             </div>
 
-            <div className="project-list">
+            <div className="project-list project-list-v2">
               {projects.map((project, index) => (
-                <article className={`project-card project-${project.tone}`} key={project.id} data-reveal>
+                <article className={`project-card project-${project.tone} ${index < 3 ? "project-featured" : ""}`} key={project.id} data-reveal>
                   <button className="project-visual" onClick={() => setActiveProject(project)} aria-label={`Open ${project.title} case study`}>
                     <ProjectVisual project={project} />
+                    <span className="project-watermark">{project.index}</span>
+                    <span className="project-metric-float"><b>{project.metric}</b><small>{project.metricLabel}</small></span>
                     <span className="open-pill">View case study <Arrow diagonal /></span>
                   </button>
                   <div className="project-info">
@@ -703,6 +758,11 @@ export default function Home() {
                     </div>
                     <h3>{project.title}</h3>
                     <p>{project.summary}</p>
+                    <div className="project-impact">
+                      <span>IMPACT</span>
+                      <b>{project.metric}</b>
+                      <p>{project.metricLabel}</p>
+                    </div>
                     <div className="project-bottom">
                       <div className="tag-list">
                         {project.tags.map((tag) => <span key={tag}>{tag}</span>)}

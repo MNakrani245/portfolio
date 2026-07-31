@@ -27,10 +27,10 @@ export const metadata: Metadata = {
     siteName: "Mohit Nakrani",
     images: [
       {
-        url: "/og.png",
-        width: 1536,
-        height: 906,
-        alt: "Mohit Nakrani — Techno-Functional ERP Lead",
+        url: "/og-v2.png",
+        width: 1731,
+        height: 909,
+        alt: "Mohit Nakrani — complexity transformed into clarity",
       },
     ],
   },
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     title: "Mohit Nakrani — Techno-Functional ERP Lead",
     description:
       "I turn operational complexity into software people trust.",
-    images: ["/og.png"],
+    images: ["/og-v2.png"],
   },
 };
 
