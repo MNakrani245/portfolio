@@ -611,7 +611,7 @@ export default function Home() {
   return (
     <>
       <div className={`site-intro ${introVisible ? "" : "intro-finished"}`} aria-hidden="true">
-        <div className="intro-mark"><span>MN</span><i /></div>
+        <div className="intro-mark"><span>M</span><i /></div>
         <div className="intro-message">
           <span>Translating complexity</span>
           <strong>into clarity.</strong>
@@ -622,7 +622,7 @@ export default function Home() {
       <div className="site-shell">
         <header className="site-nav">
           <button className="brand" onClick={() => scrollTo("home")} aria-label="Back to top">
-            <span>MN<span>.</span></span>
+            <span className="m-symbol"><i>M</i></span>
             <b><span>Mohit</span><span>Nakrani</span></b>
           </button>
           <nav className={menuOpen ? "open" : ""} aria-label="Main navigation">
@@ -659,13 +659,13 @@ export default function Home() {
               <div className="hero-engine reveal-now delay-one" aria-label="A visual model of Mohit's approach">
                 <div className="engine-beam" />
                 <div className="engine-head">
-                  <span>MN / TRANSFORMATION ENGINE</span>
+                  <span>M / TRANSFORMATION ENGINE</span>
                   <b>LIVE <i /></b>
                 </div>
                 <div className="engine-core">
                   <div className="engine-rings" aria-hidden="true">
                     <i /><i /><i />
-                    <span>MN</span>
+                    <span>M</span>
                   </div>
                   <div className="engine-modes">
                     {[
@@ -905,7 +905,7 @@ export default function Home() {
         </main>
 
         <footer>
-          <button className="brand" onClick={() => scrollTo("home")}><span>MN<span>.</span></span><b><span>Mohit</span><span>Nakrani</span></b></button>
+          <button className="brand" onClick={() => scrollTo("home")}><span className="m-symbol"><i>M</i></span><b><span>Mohit</span><span>Nakrani</span></b></button>
           <p>Techno-Functional ERP Lead · Solution Consultant</p>
           <button onClick={() => scrollTo("home")}>Back to top <span>↑</span></button>
         </footer>

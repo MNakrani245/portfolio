@@ -3775,33 +3775,62 @@ body::before {
 }
 
 .brand > span {
+  position: relative;
+  isolation: isolate;
   width: 36px;
   height: 36px;
-  color: #fff;
   border-radius: 12px;
   background: var(--paper);
-  font-size: 9px;
-  letter-spacing: -.05em;
   box-shadow: inset 0 0 0 1px rgba(255,255,255,.1);
-  transition: border-radius .25s ease, background .25s ease;
+  transition: border-radius .25s ease, transform .25s ease;
 }
 
-.brand > span > span {
-  width: auto;
-  height: auto;
-  display: inline;
-  color: var(--acid);
-  background: none;
-  font: inherit;
+.brand .m-symbol i {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  color: transparent;
+  font-family: "Arial Black", Helvetica, Arial, sans-serif;
+  font-size: 21px;
+  font-style: normal;
+  font-weight: 900;
+  letter-spacing: -.12em;
+  -webkit-text-stroke: 1.25px rgba(255,255,255,.96);
+  transform: scaleX(.8);
+}
+
+.brand .m-symbol i::before {
+  content: "M";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  display: grid;
+  place-items: center;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(49,94,251,.9);
+  transform: translate(2px, 1.5px);
+}
+
+.brand .m-symbol::after {
+  content: "";
+  position: absolute;
+  z-index: 4;
+  left: 50%;
+  bottom: 4px;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--acid);
+  transform: translateX(-50%);
+  box-shadow: 0 0 8px rgba(49,94,251,.7);
 }
 
 .brand:hover > span {
   border-radius: 50%;
-  background: var(--acid);
-}
-
-.brand:hover > span > span {
-  color: #fff;
+  transform: rotate(-4deg);
 }
 
 .brand b {
@@ -3949,6 +3978,15 @@ body::before {
 .engine-rings span,
 .engine-foot span:last-child {
   color: var(--paper);
+}
+
+.engine-rings span {
+  color: transparent;
+  font-family: "Arial Black", Helvetica, Arial, sans-serif;
+  font-size: 42px;
+  -webkit-text-stroke: 1.6px var(--paper);
+  filter: drop-shadow(3px 2px 0 rgba(49,94,251,.42));
+  transform: scaleX(.8);
 }
 
 .engine-modes button {
