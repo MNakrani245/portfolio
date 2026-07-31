@@ -519,6 +519,7 @@ export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [introVisible, setIntroVisible] = useState(true);
   const [heroMode, setHeroMode] = useState(0);
+  const [emailCopied, setEmailCopied] = useState(false);
   const heroRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -589,6 +590,24 @@ export default function Home() {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   };
 
+  const copyEmail = async () => {
+    const email = "mohitnakrani123@gmail.com";
+    try {
+      await navigator.clipboard.writeText(email);
+    } catch {
+      const field = document.createElement("textarea");
+      field.value = email;
+      field.style.position = "fixed";
+      field.style.opacity = "0";
+      document.body.appendChild(field);
+      field.select();
+      document.execCommand("copy");
+      field.remove();
+    }
+    setEmailCopied(true);
+    window.setTimeout(() => setEmailCopied(false), 2200);
+  };
+
   return (
     <>
       <div className={`site-intro ${introVisible ? "" : "intro-finished"}`} aria-hidden="true">
@@ -603,8 +622,8 @@ export default function Home() {
       <div className="site-shell">
         <header className="site-nav">
           <button className="brand" onClick={() => scrollTo("home")} aria-label="Back to top">
-            <span>MN</span>
-            <b>Mohit Nakrani</b>
+            <span>MN<span>.</span></span>
+            <b><span>Mohit</span><span>Nakrani</span></b>
           </button>
           <nav className={menuOpen ? "open" : ""} aria-label="Main navigation">
             <a className="nav-link active" href="#work" onClick={() => setMenuOpen(false)}>Work</a>
@@ -612,9 +631,9 @@ export default function Home() {
             <a className="nav-link" href="#about" onClick={() => setMenuOpen(false)}>About</a>
             <a className="nav-link" href="#experience" onClick={() => setMenuOpen(false)}>Experience</a>
           </nav>
-          <a className="nav-cta" href="mailto:mohitnakrani123@gmail.com">
+          <button className="nav-cta" onClick={() => scrollTo("contact")}>
             Let&apos;s talk <Arrow diagonal />
-          </a>
+          </button>
           <button className={`menu-button ${menuOpen ? "open" : ""}`} onClick={() => setMenuOpen((open) => !open)} aria-label="Toggle navigation" aria-expanded={menuOpen}>
             <i /><i />
           </button>
@@ -636,56 +655,60 @@ export default function Home() {
               <span>AVAILABLE FOR<br />AMBITIOUS SYSTEMS</span>
             </div>
 
-            <div className="hero-engine reveal-now delay-one" aria-label="A visual model of Mohit's approach">
-              <div className="engine-beam" />
-              <div className="engine-head">
-                <span>MN / TRANSFORMATION ENGINE</span>
-                <b>LIVE <i /></b>
-              </div>
-              <div className="engine-core">
-                <div className="engine-rings" aria-hidden="true">
-                  <i /><i /><i />
-                  <span>MN</span>
+            <div className="hero-stage">
+              <div className="hero-engine reveal-now delay-one" aria-label="A visual model of Mohit's approach">
+                <div className="engine-beam" />
+                <div className="engine-head">
+                  <span>MN / TRANSFORMATION ENGINE</span>
+                  <b>LIVE <i /></b>
                 </div>
-                <div className="engine-modes">
-                  {[
-                    ["OPERATIONS", "ORCHESTRATED"],
-                    ["DATA", "DECISIONS"],
-                    ["COMPLEXITY", "CLEAR"],
-                  ].map(([from, to], index) => (
-                    <button
-                      className={heroMode === index ? "active" : ""}
-                      key={from}
-                      onClick={() => setHeroMode(index)}
-                      aria-label={`Transform ${from.toLowerCase()} into ${to.toLowerCase()}`}
-                    >
-                      <small>0{index + 1}</small>
-                      <span>{from}</span>
-                      <i>→</i>
-                      <b>{to}</b>
+                <div className="engine-core">
+                  <div className="engine-rings" aria-hidden="true">
+                    <i /><i /><i />
+                    <span>MN</span>
+                  </div>
+                  <div className="engine-modes">
+                    {[
+                      ["OPERATIONS", "ORCHESTRATED"],
+                      ["DATA", "DECISIONS"],
+                      ["COMPLEXITY", "CLEAR"],
+                    ].map(([from, to], index) => (
+                      <button
+                        className={heroMode === index ? "active" : ""}
+                        key={from}
+                        onClick={() => setHeroMode(index)}
+                        aria-label={`Transform ${from.toLowerCase()} into ${to.toLowerCase()}`}
+                      >
+                        <small>0{index + 1}</small>
+                        <span>{from}</span>
+                        <i>→</i>
+                        <b>{to}</b>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <div className="engine-foot">
+                  <span>Odoo / Python / PostgreSQL / APIs</span>
+                  <span>7+ YEARS</span>
+                </div>
+              </div>
+
+              <div className="hero-aside">
+                <div className="hero-role reveal-now delay-two">
+                  <span>Techno-functional ERP lead</span>
+                  <span>Product systems designer</span>
+                  <span>London, United Kingdom</span>
+                </div>
+
+                <div className="hero-manifesto reveal-now delay-three">
+                  <p>I turn operational complexity into software people <em>trust.</em></p>
+                  <div>
+                    <button className="button button-primary" onClick={() => scrollTo("work")}>
+                      Explore selected work <Arrow />
                     </button>
-                  ))}
+                    <a href="/assets/docs/Mohit-Nakrani-CV.pdf" target="_blank">Download CV ↘</a>
+                  </div>
                 </div>
-              </div>
-              <div className="engine-foot">
-                <span>Odoo / Python / PostgreSQL / APIs</span>
-                <span>7+ YEARS</span>
-              </div>
-            </div>
-
-            <div className="hero-role reveal-now delay-two">
-              <span>Techno-functional ERP lead</span>
-              <span>Product systems designer</span>
-              <span>London, United Kingdom</span>
-            </div>
-
-            <div className="hero-manifesto reveal-now delay-three">
-              <p>I turn operational complexity into software people <em>trust.</em></p>
-              <div>
-                <button className="button button-primary" onClick={() => scrollTo("work")}>
-                  Explore selected work <Arrow />
-                </button>
-                <a href="/assets/docs/Mohit-Nakrani-CV.pdf" target="_blank">Download CV ↘</a>
               </div>
             </div>
 
@@ -865,9 +888,14 @@ export default function Home() {
             <div className="contact-orb orb-right" />
             <p className="eyebrow" data-reveal><i /> Open to the right challenge</p>
             <h2 data-reveal>Have a complex system in mind?<br /><em>Let&apos;s make it clear.</em></h2>
-            <a className="contact-email" href="mailto:mohitnakrani123@gmail.com" data-reveal>
-              <span>mohitnakrani123@gmail.com</span><Arrow diagonal />
-            </a>
+            <div className="contact-actions" data-reveal>
+              <a className="contact-email" href="mailto:mohitnakrani123@gmail.com">
+                <span>mohitnakrani123@gmail.com</span><Arrow diagonal />
+              </a>
+              <button className="copy-email" onClick={copyEmail}>
+                {emailCopied ? "Email copied ✓" : "Copy email"}
+              </button>
+            </div>
             <div className="contact-meta" data-reveal>
               <span>London, United Kingdom</span>
               <a href="tel:+447776848631">+44 7776 848631</a>
@@ -877,7 +905,7 @@ export default function Home() {
         </main>
 
         <footer>
-          <button className="brand" onClick={() => scrollTo("home")}><span>MN</span><b>Mohit Nakrani</b></button>
+          <button className="brand" onClick={() => scrollTo("home")}><span>MN<span>.</span></span><b><span>Mohit</span><span>Nakrani</span></b></button>
           <p>Techno-Functional ERP Lead · Solution Consultant</p>
           <button onClick={() => scrollTo("home")}>Back to top <span>↑</span></button>
         </footer>
