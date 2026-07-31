@@ -27,10 +27,10 @@ export const metadata: Metadata = {
     siteName: "Mohit Nakrani",
     images: [
       {
-        url: "/og-m-symbol.png",
-        width: 1733,
+        url: "/og-dual-theme.png",
+        width: 1732,
         height: 908,
-        alt: "Mohit Nakrani — complexity transformed into clarity",
+        alt: "Mohit Nakrani — architectural M across light and dark themes",
       },
     ],
   },
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     title: "Mohit Nakrani — Techno-Functional ERP Lead",
     description:
       "I turn operational complexity into software people trust.",
-    images: ["/og-m-symbol.png"],
+    images: ["/og-dual-theme.png"],
   },
 };
 
@@ -49,7 +49,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                var savedTheme = localStorage.getItem("mn-theme");
+                var preferredTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+                document.documentElement.dataset.theme = savedTheme || preferredTheme;
+              } catch (error) {
+                document.documentElement.dataset.theme = "light";
+              }
+            `,
+          }}
+        />
+      </head>
       <body>{children}</body>
     </html>
   );

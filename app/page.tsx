@@ -21,6 +21,8 @@ type Project = {
   link?: string;
 };
 
+type SiteTheme = "light" | "dark";
+
 const projects: Project[] = [
   {
     id: "logistics",
@@ -517,10 +519,29 @@ function Modal({ project, onClose }: { project: Project; onClose: () => void }) 
 export default function Home() {
   const [activeProject, setActiveProject] = useState<Project | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [theme, setTheme] = useState<SiteTheme>("light");
   const [introVisible, setIntroVisible] = useState(true);
   const [heroMode, setHeroMode] = useState(0);
   const [emailCopied, setEmailCopied] = useState(false);
   const heroRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const media = window.matchMedia("(prefers-color-scheme: dark)");
+    const currentTheme =
+      document.documentElement.dataset.theme === "dark" ? "dark" : "light";
+
+    setTheme(currentTheme);
+
+    const followSystemTheme = (event: MediaQueryListEvent) => {
+      if (window.localStorage.getItem("mn-theme")) return;
+      const nextTheme: SiteTheme = event.matches ? "dark" : "light";
+      document.documentElement.dataset.theme = nextTheme;
+      setTheme(nextTheme);
+    };
+
+    media.addEventListener("change", followSystemTheme);
+    return () => media.removeEventListener("change", followSystemTheme);
+  }, []);
 
   useEffect(() => {
     const hasSeenIntro = window.sessionStorage.getItem("mn-intro-seen");
@@ -590,6 +611,12 @@ export default function Home() {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   };
 
+  const chooseTheme = (nextTheme: SiteTheme) => {
+    document.documentElement.dataset.theme = nextTheme;
+    window.localStorage.setItem("mn-theme", nextTheme);
+    setTheme(nextTheme);
+  };
+
   const copyEmail = async () => {
     const email = "mohitnakrani123@gmail.com";
     try {
@@ -631,9 +658,36 @@ export default function Home() {
             <a className="nav-link" href="#about" onClick={() => setMenuOpen(false)}>About</a>
             <a className="nav-link" href="#experience" onClick={() => setMenuOpen(false)}>Experience</a>
           </nav>
-          <button className="nav-cta" onClick={() => scrollTo("contact")}>
-            Let&apos;s talk <Arrow diagonal />
-          </button>
+          <div className="nav-actions">
+            <div className="theme-switch" role="group" aria-label="Colour theme">
+              <button
+                className={theme === "light" ? "active" : ""}
+                onClick={() => chooseTheme("light")}
+                aria-label="Use light theme"
+                aria-pressed={theme === "light"}
+                title="Light theme"
+              >
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="3.5" />
+                  <path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.65 17.65l1.42 1.42M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.65 6.35l1.42-1.42" />
+                </svg>
+              </button>
+              <button
+                className={theme === "dark" ? "active" : ""}
+                onClick={() => chooseTheme("dark")}
+                aria-label="Use dark theme"
+                aria-pressed={theme === "dark"}
+                title="Dark theme"
+              >
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                  <path d="M20.2 15.2A8.7 8.7 0 0 1 8.8 3.8 8.7 8.7 0 1 0 20.2 15.2Z" />
+                </svg>
+              </button>
+            </div>
+            <button className="nav-cta" onClick={() => scrollTo("contact")}>
+              Let&apos;s talk <Arrow diagonal />
+            </button>
+          </div>
           <button className={`menu-button ${menuOpen ? "open" : ""}`} onClick={() => setMenuOpen((open) => !open)} aria-label="Toggle navigation" aria-expanded={menuOpen}>
             <i /><i />
           </button>
