@@ -652,45 +652,52 @@ export default function Home() {
             <span className="m-symbol"><i>M</i></span>
             <b><span>Mohit</span><span>Nakrani</span></b>
           </button>
-          <nav className={menuOpen ? "open" : ""} aria-label="Main navigation">
-            <a className="nav-link active" href="#work" onClick={() => setMenuOpen(false)}>Work</a>
-            <a className="nav-link" href="#products" onClick={() => setMenuOpen(false)}>Products</a>
-            <a className="nav-link" href="#about" onClick={() => setMenuOpen(false)}>About</a>
-            <a className="nav-link" href="#experience" onClick={() => setMenuOpen(false)}>Experience</a>
-          </nav>
-          <div className="nav-actions">
-            <div className="theme-switch" role="group" aria-label="Colour theme">
-              <button
-                className={theme === "light" ? "active" : ""}
-                onClick={() => chooseTheme("light")}
-                aria-label="Use light theme"
-                aria-pressed={theme === "light"}
-                title="Light theme"
-              >
-                <svg aria-hidden="true" viewBox="0 0 24 24">
-                  <circle cx="12" cy="12" r="3.5" />
-                  <path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.65 17.65l1.42 1.42M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.65 6.35l1.42-1.42" />
-                </svg>
-              </button>
-              <button
-                className={theme === "dark" ? "active" : ""}
-                onClick={() => chooseTheme("dark")}
-                aria-label="Use dark theme"
-                aria-pressed={theme === "dark"}
-                title="Dark theme"
-              >
-                <svg aria-hidden="true" viewBox="0 0 24 24">
-                  <path d="M20.2 15.2A8.7 8.7 0 0 1 8.8 3.8 8.7 8.7 0 1 0 20.2 15.2Z" />
-                </svg>
+          <div className="nav-dock">
+            <nav className={menuOpen ? "open" : ""} aria-label="Main navigation">
+              <a className="nav-link active" href="#work" onClick={() => setMenuOpen(false)}>Work</a>
+              <a className="nav-link" href="#products" onClick={() => setMenuOpen(false)}>Products</a>
+              <a className="nav-link" href="#about" onClick={() => setMenuOpen(false)}>About</a>
+              <a className="nav-link" href="#experience" onClick={() => setMenuOpen(false)}>Experience</a>
+            </nav>
+            <div className="nav-actions">
+              <div className="theme-switch" role="group" aria-label="Colour theme">
+                <button
+                  className={theme === "light" ? "active" : ""}
+                  onClick={() => chooseTheme("light")}
+                  aria-label="Use light theme"
+                  aria-pressed={theme === "light"}
+                  title="Light theme"
+                >
+                  <svg aria-hidden="true" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="3.5" />
+                    <path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.65 17.65l1.42 1.42M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.65 6.35l1.42-1.42" />
+                  </svg>
+                </button>
+                <button
+                  className={theme === "dark" ? "active" : ""}
+                  onClick={() => chooseTheme("dark")}
+                  aria-label="Use dark theme"
+                  aria-pressed={theme === "dark"}
+                  title="Dark theme"
+                >
+                  <svg aria-hidden="true" viewBox="0 0 24 24">
+                    <path d="M20.2 15.2A8.7 8.7 0 0 1 8.8 3.8 8.7 8.7 0 1 0 20.2 15.2Z" />
+                  </svg>
+                </button>
+              </div>
+              <button className="nav-cta" onClick={() => scrollTo("contact")}>
+                Let&apos;s talk <Arrow diagonal />
               </button>
             </div>
-            <button className="nav-cta" onClick={() => scrollTo("contact")}>
-              Let&apos;s talk <Arrow diagonal />
+            <button
+              className={`menu-button ${menuOpen ? "open" : ""}`}
+              onClick={() => setMenuOpen((open) => !open)}
+              aria-label="Toggle navigation"
+              aria-expanded={menuOpen}
+            >
+              <i /><i />
             </button>
           </div>
-          <button className={`menu-button ${menuOpen ? "open" : ""}`} onClick={() => setMenuOpen((open) => !open)} aria-label="Toggle navigation" aria-expanded={menuOpen}>
-            <i /><i />
-          </button>
         </header>
 
         <main>
